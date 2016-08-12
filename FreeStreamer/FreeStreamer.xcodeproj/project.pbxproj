@@ -138,6 +138,7 @@
 		969D3AA31C6DE48F00DF5410 /* FreeStreamer */ = {
 			isa = PBXGroup;
 			children = (
+				961650801C6DE8BF0004B190 /* Reachability.h */,
 				96BB12561C6DE97B00D61235 /* Reachability.m */,
 				9659B28A1C6DE92200AD2C53 /* http_stream.cpp */,
 				9659B28B1C6DE92200AD2C53 /* http_stream.h */,
@@ -157,7 +158,6 @@
 				9659B27D1C6DE91B00AD2C53 /* file_output.h */,
 				9659B27E1C6DE91B00AD2C53 /* file_stream.cpp */,
 				9659B27F1C6DE91B00AD2C53 /* file_stream.h */,
-				961650801C6DE8BF0004B190 /* Reachability.h */,
 				969D3AAE1C6DE4BB00DF5410 /* FSAudioController.h */,
 				969D3AAF1C6DE4BB00DF5410 /* FSAudioController.m */,
 				969D3AB01C6DE4BB00DF5410 /* FSAudioStream.h */,
