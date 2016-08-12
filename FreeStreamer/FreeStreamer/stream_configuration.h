@@ -22,6 +22,7 @@ struct Stream_Configuration {
     long outputNumChannels;
     int bounceInterval;
     int maxBounceCount;
+    int maxRetryCount;
     int startupWatchdogPeriod;
     int maxPrebufferedByteCount;
     bool usePrebufferSizeCalculationInSeconds;

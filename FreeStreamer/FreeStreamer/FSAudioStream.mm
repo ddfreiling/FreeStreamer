@@ -86,6 +86,7 @@ static NSInteger sortCacheObjects(id co1, id co2, void *keyForSorting)
         self.outputNumChannels = 2;
         self.bounceInterval    = 10;
         self.maxBounceCount    = 4;   // Max number of bufferings in bounceInterval seconds
+        self.maxRetryCount     = 5;
         self.startupWatchdogPeriod = 30; // If the stream doesn't start to play in this seconds, the watchdog will fail it
 #ifdef __LP64__
         /* Increase the max in-memory cache to 10 MB with newer 64 bit devices */
@@ -311,7 +312,7 @@ public:
         
         _delegate = nil;
         
-        _maxRetryCount = 3;
+        _maxRetryCount = self.configuration.maxRetryCount;
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(reachabilityChanged:)
@@ -657,6 +658,7 @@ public:
     config.outputNumChannels        = c->outputNumChannels;
     config.bounceInterval           = c->bounceInterval;
     config.maxBounceCount           = c->maxBounceCount;
+    config.maxRetryCount            = c->maxRetryCount;
     config.startupWatchdogPeriod    = c->startupWatchdogPeriod;
     config.maxPrebufferedByteCount  = c->maxPrebufferedByteCount;
     config.usePrebufferSizeCalculationInSeconds = c->usePrebufferSizeCalculationInSeconds;
@@ -911,7 +913,7 @@ public:
         self.onStateChange(streamerState);
     }
     
-    NSDictionary *userInfo = @{FSAudioStreamNotificationKey_State: [NSNumber numberWithInt:streamerState],
+    NSDictionary *userInfo = @{FSAudioStreamNotificationKey_State: [NSNumber numberWithInteger:streamerState],
                                FSAudioStreamNotificationKey_Stream: [NSValue valueWithPointer:_audioStream]};
     NSNotification *notification = [NSNotification notificationWithName:FSAudioStreamStateChangeNotification object:self.stream userInfo:userInfo];
     
@@ -1162,7 +1164,7 @@ public:
 
 -(NSString *)description
 {
-    return [NSString stringWithFormat:@"[FreeStreamer %@] URL: %@\nbufferCount: %i\nbufferSize: %i\nmaxPacketDescs: %i\nhttpConnectionBufferSize: %i\noutputSampleRate: %f\noutputNumChannels: %ld\nbounceInterval: %i\nmaxBounceCount: %i\nstartupWatchdogPeriod: %i\nmaxPrebufferedByteCount: %i\nformat: %@\nbit rate: %f\nuserAgent: %@\ncacheDirectory: %@\npredefinedHttpHeaderValues: %@\ncacheEnabled: %@\nseekingFromCacheEnabled: %@\nautomaticAudioSessionHandlingEnabled: %@\nenableTimeAndPitchConversion: %@\nrequireStrictContentTypeChecking: %@\nmaxDiskCacheSize: %i\nusePrebufferSizeCalculationInSeconds: %@\nusePrebufferSizeCalculationInPackets: %@\nrequiredPrebufferSizeInSeconds: %f\nrequiredInitialPrebufferedByteCountForContinuousStream: %i\nrequiredInitialPrebufferedByteCountForNonContinuousStream: %i\nrequiredInitialPrebufferedPacketCount: %i",
+    return [NSString stringWithFormat:@"[FreeStreamer %@] URL: %@\nbufferCount: %i\nbufferSize: %i\nmaxPacketDescs: %i\nhttpConnectionBufferSize: %i\noutputSampleRate: %f\noutputNumChannels: %ld\nbounceInterval: %i\nmaxBounceCount: %i\nmaxRetryCount: %i\nstartupWatchdogPeriod: %i\nmaxPrebufferedByteCount: %i\nformat: %@\nbit rate: %f\nuserAgent: %@\ncacheDirectory: %@\npredefinedHttpHeaderValues: %@\ncacheEnabled: %@\nseekingFromCacheEnabled: %@\nautomaticAudioSessionHandlingEnabled: %@\nenableTimeAndPitchConversion: %@\nrequireStrictContentTypeChecking: %@\nmaxDiskCacheSize: %i\nusePrebufferSizeCalculationInSeconds: %@\nusePrebufferSizeCalculationInPackets: %@\nrequiredPrebufferSizeInSeconds: %f\nrequiredInitialPrebufferedByteCountForContinuousStream: %i\nrequiredInitialPrebufferedByteCountForNonContinuousStream: %i\nrequiredInitialPrebufferedPacketCount: %i",
             freeStreamerReleaseVersion(),
             self.url,
             self.configuration.bufferCount,
@@ -1173,6 +1175,7 @@ public:
             self.configuration.outputNumChannels,
             self.configuration.bounceInterval,
             self.configuration.maxBounceCount,
+            self.configuration.maxRetryCount,
             self.configuration.startupWatchdogPeriod,
             self.configuration.maxPrebufferedByteCount,
             self.formatDescription,
@@ -1240,6 +1243,7 @@ public:
         c->outputSampleRate         = configuration.outputSampleRate;
         c->outputNumChannels        = configuration.outputNumChannels;
         c->maxBounceCount           = configuration.maxBounceCount;
+        c->maxRetryCount            = configuration.maxRetryCount;
         c->bounceInterval           = configuration.bounceInterval;
         c->startupWatchdogPeriod    = configuration.startupWatchdogPeriod;
         c->maxPrebufferedByteCount  = configuration.maxPrebufferedByteCount;

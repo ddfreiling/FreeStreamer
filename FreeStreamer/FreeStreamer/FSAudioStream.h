@@ -216,6 +216,10 @@ typedef struct {
  */
 @property (nonatomic,assign) int      maxBounceCount;
 /**
+ * The number of times the stream may retry before it fails.
+ */
+@property (nonatomic,assign) int      maxRetryCount;
+/**
  * The stream must start within this seconds before it fails.
  */
 @property (nonatomic,assign) int      startupWatchdogPeriod;
