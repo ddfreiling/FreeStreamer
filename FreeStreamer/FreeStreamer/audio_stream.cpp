@@ -539,6 +539,14 @@ void Audio_Stream::setPlayRate(float playRate)
         m_audioQueue->setPlayRate(playRate);
     }
 }
+
+float Audio_Stream::playRate() {
+    if (m_audioQueue) {
+        return m_audioQueue->playRate();
+    } else {
+        return 0;
+    }
+}
     
 void Audio_Stream::setUrl(CFURLRef url)
 {

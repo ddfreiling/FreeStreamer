@@ -78,6 +78,7 @@ public:
     float currentVolume();
     void setVolume(float volume);
     void setPlayRate(float playRate);
+    float playRate();
     
     void setUrl(CFURLRef url);
     void setStrictContentTypeChecking(bool strictChecking);

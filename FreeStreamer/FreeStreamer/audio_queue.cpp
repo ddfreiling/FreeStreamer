@@ -176,6 +176,15 @@ void Audio_Queue::setPlayRate(float playRate)
     
     AudioQueueSetParameter(m_outAQ, kAudioQueueParam_PlayRate, playRate);
 }
+    
+float Audio_Queue::playRate()
+{
+    float playRate = 0;
+    if (m_outAQ) {
+        AudioQueueGetParameter(m_outAQ, kAudioQueueParam_PlayRate, &playRate);
+    }
+    return playRate;
+}
 
 void Audio_Queue::stop(bool stopImmediately)
 {

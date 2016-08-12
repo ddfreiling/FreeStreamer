@@ -428,6 +428,11 @@ NSString*             freeStreamerReleaseVersion();
 - (void)setPlayRate:(float)playRate;
 
 /**
+ * Gets the current playback rate
+ */
+ - (float)playRate;
+
+/**
  * Returns the playback status: YES if the stream is playing, NO otherwise.
  */
 - (BOOL)isPlaying;
