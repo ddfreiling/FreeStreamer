@@ -204,6 +204,10 @@
  * The playlist item the controller is currently using.
  */
 @property (nonatomic,readonly) FSPlaylistItem *currentPlaylistItem;
+/**
+ * The index of the playlist item the controller is currently using.
+ */
+@property (nonatomic,readonly) NSUInteger currentPlaylistItemIndex;
 
 /**
  * This property determines if the next playlist item should be loaded
