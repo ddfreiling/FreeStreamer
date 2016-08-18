@@ -442,6 +442,11 @@ NSString*             freeStreamerReleaseVersion();
 - (BOOL)isPlaying;
 
 /**
+ * Returns the pause status: YES if the stream is paused, NO otherwise.
+ */
+- (BOOL)isPaused;
+
+/**
  * Cleans all cached data from the persistent storage.
  */
 - (void)expungeCache;
