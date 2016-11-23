@@ -179,6 +179,11 @@
 - (void)playPreviousItem;
 
 /**
+ * Sets the playback volume. From 0.0 to 1.0
+ */
+- (void)setVolume:(float)volume;
+
+/**
  * This property holds the current playback volume of the stream,
  * from 0.0 to 1.0.
  *
