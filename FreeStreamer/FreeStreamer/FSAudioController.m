@@ -773,7 +773,11 @@
 
 - (float)volume
 {
-    return self.outputVolume;
+    if ([_streams count] > 0) {
+        return self.audioStream.volume;
+    } else {
+        return self.outputVolume;
+    }
 }
 
 - (void)setUrl:(NSURL *)url
