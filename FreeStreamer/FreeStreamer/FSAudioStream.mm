@@ -1000,6 +1000,7 @@ public:
                                    userInfo:nil
                                     repeats:NO];
     
+    self.wasDisconnected = NO;
     self.retryCount++;
 }
 
@@ -1844,6 +1845,8 @@ void AudioStreamStateObserver::audioStreamErrorOccurred(int errorCode, CFStringR
         error == kFsAudioStreamErrorUnsupportedFormat ||
         error == kFsAudioStreamErrorOpen ||
         error == kFsAudioStreamErrorTerminated) {
+        
+        priv.wasDisconnected = YES;
         
         if (!source->isPreloading()) {
             [priv attemptRestart];
