@@ -1556,6 +1556,7 @@ void Audio_Stream::stateSetTimerCallback(CFRunLoopTimerRef timer, void *info)
 bool Audio_Stream::decoderShouldRun()
 {
     const Audio_Stream::State state = this->state();
+    const bool isAudioQueuePaused = m_audioQueue && m_audioQueue->state() == m_audioQueue->PAUSED;
     
     pthread_mutex_lock(&m_streamStateMutex);
     
@@ -1568,7 +1569,8 @@ bool Audio_Stream::decoderShouldRun()
         state == SEEKING ||
         state == FAILED ||
         state == PLAYBACK_COMPLETED ||
-        m_dstFormat.mBytesPerPacket == 0) {
+        m_dstFormat.mBytesPerPacket == 0 ||
+        isAudioQueuePaused) {
         pthread_mutex_unlock(&m_streamStateMutex);
         return false;
     } else {
