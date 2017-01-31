@@ -981,6 +981,8 @@ public:
                                        selector:@selector(notifyRetryingFailed)
                                        userInfo:nil
                                         repeats:NO];
+        
+        self.retryCount = 0;
         return;
     }
     
