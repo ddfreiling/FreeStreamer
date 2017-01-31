@@ -125,6 +125,11 @@ Audio_Stream::Audio_Stream() :
     
     memset(&m_dstFormat, 0, sizeof m_dstFormat);
     
+    memset(&m_currentPlaybackPosition, 0, sizeof m_currentPlaybackPosition);
+    
+    m_currentPlaybackPosition.offset = 0;
+    m_currentPlaybackPosition.timePlayed = 0;
+    
     Stream_Configuration *config = Stream_Configuration::configuration();
     
     m_dstFormat.mSampleRate = config->outputSampleRate;
@@ -185,7 +190,26 @@ Audio_Stream::~Audio_Stream()
     
 void Audio_Stream::open()
 {
-    open(0);
+    /* if playback position exists, open by that position */
+    
+    if (m_currentPlaybackPosition.offset <= 0
+        || m_currentPlaybackPosition.timePlayed <= 0
+        || contentLength() <= 0) {
+        open(0);
+    } else {
+        Input_Stream_Position position;
+        UInt64 contentLen = contentLength();
+        position.start = m_currentPlaybackPosition.offset * contentLen;
+        position.end = contentLen;
+        open(&position);
+        float byteOffset = (position.start - m_dataOffset) * 1.0 / (position.end - m_dataOffset);
+        if (byteOffset <= 0) {
+            byteOffset = 0;
+        } else if (byteOffset >= 1) {
+            byteOffset = 1;
+        }
+        setSeekOffset(byteOffset);
+    }
 }
 
 void Audio_Stream::open(Input_Stream_Position *position)
@@ -904,6 +928,7 @@ void Audio_Stream::audioQueueInitializationFailed()
     
 void Audio_Stream::audioQueueFinishedPlayingPacket()
 {
+    m_currentPlaybackPosition = playbackPosition();
 }
     
 void Audio_Stream::streamIsReadyRead()

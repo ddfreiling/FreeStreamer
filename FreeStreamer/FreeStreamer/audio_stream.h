@@ -106,6 +106,7 @@ public:
     
     UInt64 defaultContentLength();
     UInt64 contentLength();
+    AS_Playback_Position m_currentPlaybackPosition;
     int playbackDataCount();
     
     AudioQueueLevelMeterState levels();

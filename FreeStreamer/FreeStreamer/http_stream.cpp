@@ -138,6 +138,8 @@ bool HTTP_Stream::open(const Input_Stream_Position& position)
     /* Reset state */
     m_position = position;
     
+    HS_TRACE("open position: %lld, %lld\n", position.start, position.end);
+    
     m_readPending = false;
     m_httpHeadersParsed = false;
     
